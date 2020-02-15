@@ -1,0 +1,22 @@
+PODS:
+  - argon2_ffi (0.0.1):
+    - Flutter
+  - Flutter (1.0.0)
+
+DEPENDENCIES:
+  - argon2_ffi (from `.symlinks/plugins/argon2_ffi/ios`)
+  - Flutter (from `Flutter`)
+
+EXTERNAL SOURCES:
+  argon2_ffi:
+    :path: ".symlinks/plugins/argon2_ffi/ios"
+  Flutter:
+    :path: Flutter
+
+SPEC CHECKSUMS:
+  argon2_ffi: 9a2f8dc090e2e2fc78cecc8bc8a1ebbf5ab2dedb
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+
+PODFILE CHECKSUM: 083258d7f5e80b42ea9bfee905fe93049bc04c64
+
+COCOAPODS: 1.8.4
