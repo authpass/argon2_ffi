@@ -25,7 +25,4 @@ class Argon2Ffi {
   }
 
   int addIt(int x, int y) => _nativeAdd(x, y);
-
-  String hashStuff(String password) =>
-      Utf8.fromUtf8(_hashStuff(Utf8.toUtf8(password)));
 }

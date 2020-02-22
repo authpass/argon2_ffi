@@ -8,3 +8,13 @@ build/
 
 android/.cxx
 
+android/cmake_install.cmake
+android/CMakeCache.txt
+android/Makefile
+android/CMakeFiles
+
+ios/Classes/cmake_install.cmake
+ios/Classes/CMakeCache.txt
+ios/Classes/cmake-*
+ios/Classes/CMakeFiles
+
