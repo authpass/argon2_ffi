@@ -40,8 +40,7 @@ class _MyAppState extends State<MyApp> {
                 int x = random.nextInt(20);
                 int y = random.nextInt(20);
                 setState(() {
-                  result =
-                      '$x + $y = ${_argon2ffi.addIt(x, y)} --- ${_argon2ffi.hashStuff('LoremIpsum')}';
+                  result = '$x + $y = ${_argon2ffi.addIt(x, y)} --- ';
                 });
               },
             ),
