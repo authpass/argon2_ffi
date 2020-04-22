@@ -26,6 +26,7 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 28
+    ndkVersion System.getProperty("design.codeux.ndkVersion", "21.0.6113669")
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -41,9 +42,9 @@ android {
     externalNativeBuild {
         // Encapsulates your CMake build configurations.
         cmake {
-            //version "3.10.2"
+            version "3.10.2"
             // f-droid uses 3.7, let's hope it works this way.
-            version "3.6.0+"
+            //version "3.6.0+"
             // Provides a relative path to your CMake build script.
             path "CMakeLists.txt"
         }
