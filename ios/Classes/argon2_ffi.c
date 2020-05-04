@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include "argon2src/argon2.h"
 
+//#include <android/log.h>
+
 //extern "C" __attribute__((visibility("default"))) __attribute__((used))
 int32_t native_add(int32_t x, int32_t y) {
     return x + y;
@@ -17,6 +19,8 @@ int32_t native_add(int32_t x, int32_t y) {
 #define DEBUG 0
 #define PRINT_DEBUG(fmt, ...) \
             do { if (DEBUG) printf(fmt, ##__VA_ARGS__); } while (0)
+//#define PRINT_DEBUG(fmt, ...) \
+//            do { if (DEBUG) __android_log_print(ANDROID_LOG_VERBOSE, "argon2ffi", fmt, ##__VA_ARGS__); } while (0)
 
 
 // base64 encoding https://nachtimwald.com/2017/11/18/base64-encode-and-decode-in-c/
@@ -96,14 +100,14 @@ void debugBytes(uint8_t *bytes, int length) {
     }
 }
 
-char *hp_argon2_hash(uint8_t *key, size_t keylen, uint8_t *salt, size_t saltlen,
+char *hp_argon2_hash(uint8_t *key, uint32_t keylen, uint8_t *salt, uint32_t saltlen,
                      uint32_t m_cost,
                      uint32_t t_cost /* iterations*/, uint32_t parallelism,
-                     size_t hashlen,
+                     uint32_t hashlen,
                      uint8_t type, int32_t version) {
     uint8_t hash1[hashlen];
-    PRINT_DEBUG("keylen: %ld, saltlen: %ld, m_cost: %ld, t_cost: %ld, hashlen: %ld, type: %d, version: %02x\n",
-           keylen, saltlen, m_cost, t_cost, hashlen, type, version);
+    PRINT_DEBUG("keylen: %ld, saltlen: %ld, m_cost: %ld, t_cost: %ld, parallelism: %ld, hashlen: %ld, type: %d, version: %02x\n",
+           keylen, saltlen, m_cost, t_cost, parallelism, hashlen, type, version);
     PRINT_DEBUG("key: ");
 
     debugBytes(key, keylen);
