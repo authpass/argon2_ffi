@@ -1,6 +1,6 @@
 package com.example.argon2_ffi
 
-import androidx.annotation.NonNull;
+import androidx.annotation.NonNull
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -9,7 +9,7 @@ import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
 
 /** Argon2FfiPlugin */
-public class Argon2FfiPlugin: FlutterPlugin, MethodCallHandler {
+class Argon2FfiPlugin: FlutterPlugin, MethodCallHandler {
   /// The MethodChannel that will the communication between Flutter and native Android
   ///
   /// This local reference serves to register the plugin with the Flutter Engine and unregister it
@@ -17,8 +17,8 @@ public class Argon2FfiPlugin: FlutterPlugin, MethodCallHandler {
   private lateinit var channel : MethodChannel
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-    channel = MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "argon2_ffi")
-    channel.setMethodCallHandler(this);
+    channel = MethodChannel(flutterPluginBinding.binaryMessenger, "argon2_ffi")
+    channel.setMethodCallHandler(this)
   }
 
   // This static function is optional and equivalent to onAttachedToEngine. It supports the old
@@ -31,6 +31,7 @@ public class Argon2FfiPlugin: FlutterPlugin, MethodCallHandler {
   // depending on the user's project. onAttachedToEngine or registerWith must both be defined
   // in the same class.
   companion object {
+    @Suppress("unused")
     @JvmStatic
     fun registerWith(registrar: Registrar) {
       val channel = MethodChannel(registrar.messenger(), "argon2_ffi")
