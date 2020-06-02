@@ -1,10 +1,8 @@
+import 'dart:convert';
 import 'dart:math';
 
+import 'package:argon2_ffi_base/argon2_ffi_base.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
-
-import 'package:flutter/services.dart';
-import 'package:argon2_ffi/argon2_ffi.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,7 +12,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final _argon2ffi = Argon2Ffi();
+  final _argon2ffi = Argon2FfiFlutter();
   final random = Random();
 
   String result;
@@ -41,6 +39,25 @@ class _MyAppState extends State<MyApp> {
                 int y = random.nextInt(20);
                 setState(() {
                   result = '$x + $y = ${_argon2ffi.addIt(x, y)} --- ';
+                });
+              },
+            ),
+            RaisedButton(
+              child: Text('hash stuff'),
+              onPressed: () {
+                final args = Argon2Arguments(
+                  utf8.encode('abc'),
+                  utf8.encode('abc'),
+                  1024,
+                  2,
+                  32,
+                  2,
+                  0,
+                  1,
+                );
+                final hash = _argon2ffi.argon2(args);
+                setState(() {
+                  result = 'argon2 hash: ${base64.encode(hash)}';
                 });
               },
             ),
