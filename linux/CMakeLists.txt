@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.10)
 set(PROJECT_NAME "argon2_ffi")
-project(${PROJECT_NAME} LANGUAGES CXX)
+project(${PROJECT_NAME} LANGUAGES C CXX)
 
 set(PLUGIN_NAME "${PROJECT_NAME}_plugin")
 
 add_library(${PLUGIN_NAME} SHARED
-  "${PLUGIN_NAME}.cc"
+  ${PLUGIN_NAME}.cc
   
   ../ios/Classes/argon2_ffi.c
 

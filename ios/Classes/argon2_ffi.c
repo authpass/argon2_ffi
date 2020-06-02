@@ -107,7 +107,7 @@ char *hp_argon2_hash(uint8_t *key, uint32_t keylen, uint8_t *salt, uint32_t salt
                      uint8_t type, int32_t version) {
     uint8_t hash1[hashlen];
     PRINT_DEBUG("keylen: %ld, saltlen: %ld, m_cost: %ld, t_cost: %ld, parallelism: %ld, hashlen: %ld, type: %d, version: %02x\n",
-           keylen, saltlen, m_cost, t_cost, parallelism, hashlen, type, version);
+           (long)keylen, (long)saltlen, (long)m_cost, (long)t_cost, (long)parallelism, (long)hashlen, type, version);
     PRINT_DEBUG("key: ");
 
     debugBytes(key, keylen);
