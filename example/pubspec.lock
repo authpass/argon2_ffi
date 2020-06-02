@@ -9,13 +9,11 @@ packages:
     source: path
     version: "0.0.1"
   argon2_ffi_base:
-    dependency: "direct main"
+    dependency: transitive
     description:
-      path: "."
-      ref: a867d30e77521012fd68af0208ec9ccc57127d86
-      resolved-ref: a867d30e77521012fd68af0208ec9ccc57127d86
-      url: "https://github.com/hpoul/argon2_ffi_base.git"
-    source: git
+      name: argon2_ffi_base
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.0.1"
   async:
     dependency: transitive
