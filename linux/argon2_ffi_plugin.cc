@@ -1,78 +1,68 @@
-#include "include/argon2_ffi_plugin.h"
+#include "include/argon2_ffi/argon2_ffi_plugin.h"
 
-#include <flutter/method_channel.h>
-#include <flutter/plugin_registrar_glfw.h>
-#include <flutter/standard_method_codec.h>
+#include <flutter_linux/flutter_linux.h>
+#include <gtk/gtk.h>
 #include <sys/utsname.h>
 
-#include <map>
-#include <memory>
-#include <sstream>
+#define ARGON2_FFI_PLUGIN(obj) \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), argon2_ffi_plugin_get_type(), \
+                              Argon2FfiPlugin))
 
-namespace {
-
-class Argon2FfiPlugin : public flutter::Plugin {
- public:
-  static void RegisterWithRegistrar(flutter::PluginRegistrarGlfw *registrar);
-
-  Argon2FfiPlugin();
-
-  virtual ~Argon2FfiPlugin();
-
- private:
-  // Called when a method is called on this plugin's channel from Dart.
-  void HandleMethodCall(
-      const flutter::MethodCall<flutter::EncodableValue> &method_call,
-      std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result);
+struct _Argon2FfiPlugin {
+  GObject parent_instance;
 };
 
-// static
-void Argon2FfiPlugin::RegisterWithRegistrar(
-    flutter::PluginRegistrarGlfw *registrar) {
-  auto channel =
-      std::make_unique<flutter::MethodChannel<flutter::EncodableValue>>(
-          registrar->messenger(), "argon2_ffi",
-          &flutter::StandardMethodCodec::GetInstance());
-  auto plugin = std::make_unique<Argon2FfiPlugin>();
+G_DEFINE_TYPE(Argon2FfiPlugin, argon2_ffi_plugin, g_object_get_type())
 
-  channel->SetMethodCallHandler(
-      [plugin_pointer = plugin.get()](const auto &call, auto result) {
-        plugin_pointer->HandleMethodCall(call, std::move(result));
-      });
+// Called when a method call is received from Flutter.
+static void argon2_ffi_plugin_handle_method_call(
+    Argon2FfiPlugin* self,
+    FlMethodCall* method_call) {
+  g_autoptr(FlMethodResponse) response = nullptr;
 
-  registrar->AddPlugin(std::move(plugin));
-}
+  const gchar* method = fl_method_call_get_name(method_call);
 
-Argon2FfiPlugin::Argon2FfiPlugin() {}
-
-Argon2FfiPlugin::~Argon2FfiPlugin() {}
-
-void Argon2FfiPlugin::HandleMethodCall(
-    const flutter::MethodCall<flutter::EncodableValue> &method_call,
-    std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result) {
-  // Replace "getPlatformVersion" check with your plugin's method.
-  // See:
-  // https://github.com/flutter/engine/tree/master/shell/platform/common/cpp/client_wrapper/include/flutter
-  // and
-  // https://github.com/flutter/engine/tree/master/shell/platform/glfw/client_wrapper/include/flutter
-  // for the relevant Flutter APIs.
-  if (method_call.method_name().compare("getPlatformVersion") == 0) {
+  if (strcmp(method, "getPlatformVersion") == 0) {
     struct utsname uname_data = {};
     uname(&uname_data);
-    std::ostringstream version_stream;
-    version_stream << "Linux " << uname_data.version;
-    flutter::EncodableValue response(version_stream.str());
-    result->Success(&response);
+    g_autofree gchar *version = g_strdup_printf("Linux %s", uname_data.version);
+    g_autoptr(FlValue) result = fl_value_new_string(version);
+    response = FL_METHOD_RESPONSE(fl_method_success_response_new(result));
   } else {
-    result->NotImplemented();
+    response = FL_METHOD_RESPONSE(fl_method_not_implemented_response_new());
   }
+
+  fl_method_call_respond(method_call, response, nullptr);
 }
 
-}  // namespace
+static void argon2_ffi_plugin_dispose(GObject* object) {
+  G_OBJECT_CLASS(argon2_ffi_plugin_parent_class)->dispose(object);
+}
 
-void Argon2FfiPluginRegisterWithRegistrar(
-    FlutterDesktopPluginRegistrarRef registrar) {
-  Argon2FfiPlugin::RegisterWithRegistrar(
-      flutter::PluginRegistrarManager::GetInstance()
-          ->GetRegistrar<flutter::PluginRegistrarGlfw>(registrar));
+static void argon2_ffi_plugin_class_init(Argon2FfiPluginClass* klass) {
+  G_OBJECT_CLASS(klass)->dispose = argon2_ffi_plugin_dispose;
+}
+
+static void argon2_ffi_plugin_init(Argon2FfiPlugin* self) {}
+
+static void method_call_cb(FlMethodChannel* channel, FlMethodCall* method_call,
+                           gpointer user_data) {
+  Argon2FfiPlugin* plugin = ARGON2_FFI_PLUGIN(user_data);
+  argon2_ffi_plugin_handle_method_call(plugin, method_call);
+}
+
+void argon2_ffi_plugin_register_with_registrar(FlPluginRegistrar* registrar) {
+  Argon2FfiPlugin* plugin = ARGON2_FFI_PLUGIN(
+      g_object_new(argon2_ffi_plugin_get_type(), nullptr));
+
+  g_autoptr(FlStandardMethodCodec) codec = fl_standard_method_codec_new();
+  g_autoptr(FlMethodChannel) channel =
+      fl_method_channel_new(fl_plugin_registrar_get_messenger(registrar),
+                            "argon2_ffi",
+                            FL_METHOD_CODEC(codec));
+  fl_method_channel_set_method_call_handler(channel, method_call_cb,
+                                            g_object_ref(plugin),
+                                            g_object_unref);
+
+  g_object_unref(plugin);
 }
