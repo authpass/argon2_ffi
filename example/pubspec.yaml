@@ -8,7 +8,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  argon2_ffi_base: '>=0.0.1 <1.0.0'
+  argon2_ffi_base: '>=0.1.1 <1.0.0'
 
 dev_dependencies:
   flutter_test:
