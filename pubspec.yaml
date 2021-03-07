@@ -6,12 +6,12 @@ version: 1.0.0
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
-  flutter: ">=1.10.0 <2.0.0"
+  flutter: ">=1.10.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  argon2_ffi_base: ^1.0.0+1
+  argon2_ffi_base: ^1.0.0+2
 
 
 dev_dependencies:
