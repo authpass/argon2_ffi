@@ -2,14 +2,14 @@ group 'com.example.argon2_ffi'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.3.72'
+    ext.kotlin_version = '1.8.10'
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.0'
+        classpath 'com.android.tools.build:gradle:8.1.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -17,15 +17,20 @@ buildscript {
 rootProject.allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
+kotlin {
+    jvmToolchain(17)
+}
+
 android {
-    compileSdkVersion 28
+    namespace "design.codeux.argon2_ffi"
+    compileSdkVersion 30
     ndkVersion System.getProperty("design.codeux.ndkVersion", "21.0.6113669")
 
     sourceSets {

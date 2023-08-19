@@ -1,3 +1,7 @@
+## 1.0.0+1
+
+* Upgrade to flutter 3.13, upgrade android gradle plugin, etc.
+
 ## 1.0.0
 
 * Nullsafety "migration"
