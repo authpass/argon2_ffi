@@ -2,7 +2,7 @@ name: argon2_ffi
 description: Argon2 implementation by using ffi as flutter plugin. use argon2_ffi_base for the actual dart code.
 homepage: https://github.com/authpass/argon2_ffi
 repository: https://github.com/authpass/argon2_ffi
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: '>=2.12.0 <4.0.0'

@@ -30,14 +30,14 @@ kotlin {
 
 android {
     namespace "design.codeux.argon2_ffi"
-    compileSdkVersion 30
-    ndkVersion System.getProperty("design.codeux.ndkVersion", "21.0.6113669")
+    compileSdkVersion 34
+    ndkVersion System.getProperty("design.codeux.ndkVersion", "27.0.12077973")
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 21
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     lintOptions {
