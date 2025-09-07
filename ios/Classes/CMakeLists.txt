@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.4.1)  # for example
+cmake_minimum_required(VERSION 3.5.0)  # for example
 
 add_library(argon2_ffi
 
